@@ -1,7 +1,7 @@
 require('es6-promise').polyfill();
 
 require('isomorphic-fetch');
-const routingHelpers = require('@propertech/react-router-routing-helpers').default;
+const routingHelpers = require('react-router-routing-helpers').default;
 const {objToQueryParams} = routingHelpers;
 
 // Using the async isomorphic fetch for sending crud requests

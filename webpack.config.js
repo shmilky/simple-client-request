@@ -10,10 +10,7 @@ module.exports = {
         libraryTarget: 'commonjs2'
     },
     externals: {
-        '@propertech/react-router-routing-helpers': '@propertech/react-router-routing-helpers',
-        '@propertech/shared': '@propertech/shared',
-        "es6-promise": "es6-promise",
-        "isomorphic-fetch": "isomorphic-fetch",
+        'react-router-routing-helpers': 'react-router-routing-helpers',
     },
     module: {
         rules: [
