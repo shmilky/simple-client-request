@@ -33,7 +33,7 @@ bower_components
 .lock-wscript
 
 # Compiled script
-bin/
+/index.js
 
 # Dependency directories
 node_modules/

@@ -6,7 +6,7 @@ module.exports = {
     entry: './src/clientRequest.js',
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, './bin'),
+        path: path.resolve(__dirname, './'),
         libraryTarget: 'commonjs2'
     },
     externals: {

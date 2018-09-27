@@ -1,8 +1,8 @@
 {
   "name": "simple-client-request",
-  "version": "1.0.4",
+  "version": "1.0.8",
   "description": "Client request module, basicaly it's a wrapper for request module according to our implementation details",
-  "main": "./bin/index.js",
+  "main": "./index.js",
   "author": "shmilky",
   "dependencies": {
     "auto-package-publish": "1.0.4",
