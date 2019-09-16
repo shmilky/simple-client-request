@@ -25,10 +25,11 @@ describe('clientRequest', () => {
 
         fetchMock.get(url, response);
 
-        clientRequest.get(url, (err, body) => {
-            expect(body).toEqual(expectedBody);
-            done();
-        });
+        clientRequest.get(url)
+            .then((body) => {
+                expect(body).toEqual(expectedBody);
+                done();
+            });
     });
 
 
@@ -42,10 +43,11 @@ describe('clientRequest', () => {
 
         fetchMock.get(fullUrl, data);
 
-        clientRequest.get(fullUrl, (err, body) => {
-            expect(body).toEqual(expectedBody);
-            done();
-        });
+        clientRequest.get(fullUrl)
+            .then((body) => {
+                expect(body).toEqual(expectedBody);
+                done();
+            });
     });
 
 
@@ -58,10 +60,11 @@ describe('clientRequest', () => {
 
         fetchMock.get(url + '?' + queryParamsStr, response);
 
-        clientRequest.get(url, queryParams, (err, body) => {
-            expect(body).toEqual(expectedBody);
-            done();
-        });
+        clientRequest.get(url, queryParams)
+            .then((body) => {
+                expect(body).toEqual(expectedBody);
+                done();
+            });
     });
 
 
@@ -76,37 +79,39 @@ describe('clientRequest', () => {
 
         fetchMock.get(fullPath + '?' + queryParamsStr, response);
 
-        clientRequest.get(fullPath, queryParams, (err, body) => {
-            expect(body).toEqual(expectedBody);
-            done();
-        });
-    });
-
-
-    test('forceGetData adds no-cache header', (done) => {
-        const url = dummyUrl;
-        const path = '/path';
-        const fullPath = url + path;
-        const queryParams = {q: 'value'};
-        const queryParamsStr = 'q=value';
-        const response = dummyResObject;
-        const expectedBody = response;
-
-
-        fetchMock.get(
-            fullPath + '?' + queryParamsStr,
-            response,
-            {
-                headers : {
-                    'Cache-Control': 'no-cache'
-                }
+        clientRequest.get(fullPath, queryParams)
+            .then((body) => {
+                expect(body).toEqual(expectedBody);
+                done();
             });
-
-        clientRequest.forceGetData(url + path, queryParams, (err, body) => {
-            expect(body).toEqual(expectedBody);
-            done();
-        });
     });
+
+
+    // test('forceGetData adds no-cache header', (done) => {
+    //     const url = dummyUrl;
+    //     const path = '/path';
+    //     const fullPath = url + path;
+    //     const queryParams = {q: 'value'};
+    //     const queryParamsStr = 'q=value';
+    //     const response = dummyResObject;
+    //     const expectedBody = response;
+    //
+    //
+    //     fetchMock.get(
+    //         fullPath + '?' + queryParamsStr + '&no_cache=*',
+    //         response,
+    //         {
+    //             headers : {
+    //                 'Cache-Control': 'no-cache'
+    //             }
+    //         });
+    //
+    //     clientRequest.getNoCache(url + path, queryParams)
+    //         .then((body) => {
+    //             expect(body).toEqual(expectedBody);
+    //             done();
+    //         });
+    // });
 
 
     test('post dummy test', (done) => {
@@ -155,7 +160,8 @@ describe('clientRequest', () => {
             sendAsJson: false
         }, {method: 'POST'});
 
-        clientRequest.post(url + path, dummyPostData, (err, body) => {
+        clientRequest.post(url + path, dummyPostData)
+            .then((body) => {
             expect(body).toEqual(expectedBody);
             done();
         });
@@ -176,10 +182,11 @@ describe('clientRequest', () => {
             sendAsJson: false
         }, {method: 'POST'});
 
-        clientRequest.post(url + path, (err, body) => {
-            expect(body).toEqual(expectedBody);
-            done();
-        });
+        clientRequest.post(url + path)
+            .then((body) => {
+                expect(body).toEqual(expectedBody);
+                done();
+            });
     });
 
 
@@ -198,9 +205,10 @@ describe('clientRequest', () => {
             sendAsJson: false
         }, {method: 'PUT'});
 
-        clientRequest.put(url + path, dummyPostData, (err, body) => {
-            expect(body).toEqual(expectedBody);
-            done();
-        });
+        clientRequest.put(url + path, dummyPostData)
+            .then((body) => {
+                expect(body).toEqual(expectedBody);
+                done();
+            });
     });
 });

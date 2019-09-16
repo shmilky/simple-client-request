@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+/src
+/.idea
+/.npmignore
+/.gitignore
+/publishPackage.js
+/webpack.config.js
+/.babelrc
+/__tests__
+/node_modules

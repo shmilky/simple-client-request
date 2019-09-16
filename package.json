@@ -1,6 +1,6 @@
 {
   "name": "simple-client-request",
-  "version": "1.0.8",
+  "version": "2.0.0",
   "description": "Client request module, basicaly it's a wrapper for request module according to our implementation details",
   "main": "./index.js",
   "author": "shmilky",
@@ -21,11 +21,11 @@
     "react-router-routing-helpers": "*"
   },
   "devDependencies": {
-    "react-router-routing-helpers": "*",
     "babel-jest": "20.0.3",
     "fetch-mock": "5.13.1",
     "jest": "20.0.4",
-    "jest-cli": "20.0.4"
+    "jest-cli": "20.0.4",
+    "react-router-routing-helpers": "^1.0.6"
   },
   "scripts": {
     "auto-publish": "node ./publishPackage.js",

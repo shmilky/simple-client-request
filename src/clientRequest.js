@@ -5,31 +5,31 @@ const routingHelpers = require('react-router-routing-helpers').default;
 const {objToQueryParams} = routingHelpers;
 
 // Using the async isomorphic fetch for sending crud requests
-function asyncReq(url, method, body, options={}, cb) {
-    let reqHeaders = {
+function asyncReq(url, method, body, options={}) {
+    let headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
     };
 
     if (options.noCache) {
-        reqHeaders['Cache-Control'] = 'no-cache'
+        headers['Cache-Control'] = 'no-cache'
     }
 
     const reqOptions = {
         credentials: 'include', // enable cookies for session.
-        headers: reqHeaders,
-        method: method,
+        headers,
+        method,
     };
 
     if (method === 'post' || method === 'put') {
-        reqOptions.body = JSON.stringify(body);
+        reqOptions.body = JSON.stringify(body || {});
     }
 
-    fetch(url, reqOptions).then(function(response) {
+    return fetch(url, Object.assign(reqOptions, options)).then(function(response) {
         // TODO: Consider adding the error code to the response
 
         return response.json();
-    }).then(function (json) {
+    }).then((json) => {
         const actualResData = json.data || json;
         let errorMsg = json.errorMessage;
 
@@ -42,48 +42,33 @@ function asyncReq(url, method, body, options={}, cb) {
             throw new Error(errorMsg);
         }
 
-        cb(null, actualResData);
-    }).catch (function(err) {
-        cb(err.message || err);
+        return actualResData;
+    }).catch ((err) => {
+        throw new Error(err.message || err);
     });
 }
 
-function asyncGetReq (url, queryParams, options, cb) {
-    if (typeof queryParams === 'function') {
-        cb = queryParams;
-        queryParams = {};
-    }
-
+function asyncGetReq (url, queryParams, options) {
     const queryStr = queryParams ? objToQueryParams(queryParams) : '';
     const fullUrl = url + (queryStr !== '' ? '?' + queryStr : '');
 
-    asyncReq(fullUrl, 'get', null, options, cb);
+    return asyncReq(fullUrl, 'get', null, options);
 }
 
-function getRequest (url, queryParams, cb) {
-    asyncGetReq(url, queryParams, {}, cb);
+function get (url, queryParams, options) {
+    return asyncGetReq(url, queryParams, options);
 }
 
-function refreshGetRequest (url, queryParams, cb) {
-    asyncGetReq(url, queryParams, {noCache: true}, cb);
+function getNoCache (url, queryParams, options) {
+    return get(url, Object.assign({no_cache: new Date().getTime()}, queryParams), options);
 }
 
-function postRequest (url, data, cb) {
-    if (typeof data === 'function') {
-        cb = data;
-        data = {};
-    }
-
-    asyncReq(url, 'post', data, {}, cb || function(err, data) {});
+function post (url, data, options) {
+    return asyncReq(url, 'post', data, options);
 }
 
-function putRequest (url, data, cb) {
-    if (typeof data === 'function') {
-        cb = data;
-        data = {};
-    }
-
-    asyncReq(url, 'put', data, {}, cb || function(err, data) {});
+function put (url, data, options) {
+    return asyncReq(url, 'put', data, options);
 }
 
 // function postFileRequest (url, data, cb) {
@@ -116,9 +101,9 @@ function putRequest (url, data, cb) {
 // }
 
 export default {
-    get: getRequest,
-    forceGetData: refreshGetRequest,
-    post: postRequest,
-    put: putRequest,
+    get,
+    getNoCache,
+    post,
+    put,
     // postFile: postFileRequest
 }
